@@ -1,5 +1,6 @@
 package com.zhoumushui.zygotebubblebadge;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -9,9 +10,13 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import com.zhoumushui.zygotebubblebadge.util.BadgeUtil;
 import com.zhoumushui.zygotebubblebadge.util.ToastUtil;
 import com.zhoumushui.zygotebubblebadge.widget.BadgeFloatingActionButton;
 
@@ -27,6 +32,9 @@ import cn.bingoogolapple.badgeview.BGADragDismissDelegate;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Context context;
+    private int unreadNumber;
+
     private BGABadgeView mTestBv;
 
     private BGABadgeTextView mTestBtv;
@@ -41,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
 //    private MessageAdapter mMessageAdapter;
 
-
     private RadioGroup mTabRg;
     private BGABadgeRadioButton mHomeBrb;
     private BGABadgeRadioButton mMessageBrb;
@@ -53,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         setContentView(R.layout.activity_main);
 
         ToastUtil.init(this);
@@ -60,6 +68,66 @@ public class MainActivity extends AppCompatActivity {
         initView();
         testBadgeView();
         testRadioButton();
+
+        unreadNumber = 0;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(true);
+            return true;
+        } else
+            return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.unread_plus:
+                BadgeUtil.sendToSamsumg(context, ++unreadNumber);
+                return true;
+
+            case R.id.unread_minus:
+                --unreadNumber;
+                if (unreadNumber < 0)
+                    unreadNumber = 0;
+                BadgeUtil.sendToSamsumg(context, unreadNumber);
+                return true;
+
+            case R.id.unread_reset:
+                BadgeUtil.sendToSamsumg(context, 0);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initView() {

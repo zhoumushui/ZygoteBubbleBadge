@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/unread_plus"
+        android:title="@string/unread_plus"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/unread_minus"
+        android:title="@string/unread_minus"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/unread_reset"
+        android:title="@string/unread_reset"
+        app:showAsAction="always" />
+
+</menu>
