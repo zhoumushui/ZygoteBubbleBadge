@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ZygoteBubbleBadge</string>
+    <string name="app_has_exception">很抱歉程序异常</string>
 </resources>
